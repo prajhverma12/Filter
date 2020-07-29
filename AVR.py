@@ -40,6 +40,7 @@ for i in old_list:
 
 data_consolidate = data
 
+data_consolidate["VALUE OF SECURITY (ACQUIRED/DISPLOSED)"] = data_consolidate["VALUE OF SECURITY (ACQUIRED/DISPLOSED)"].astype(str).astype(float)
 data_consolidate = data_consolidate.groupby(['SYMBOL'])['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'].sum()
 
 
