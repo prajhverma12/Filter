@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jul 29 18:30:47 2020
-
-@author: Arnav Verma
-"""
 from datetime import date
 from datetime import datetime, timedelta
 from dateutil.relativedelta import *

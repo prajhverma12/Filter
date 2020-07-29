@@ -37,7 +37,7 @@ def filterStocks(filename):
     
     consolidatedData.sort_values(by=['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'], inplace=True, ascending=False)
 
-    consolidatedData.to_csv("sample.csv", header=True, index=False, sep=',')
+    #consolidatedData.to_csv("sample.csv", header=True, index=False, sep=',')
         
     return consolidatedData
 
