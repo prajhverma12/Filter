@@ -1,41 +1,37 @@
 import numpy as np
 import pandas as pd
 import csv
-dataset = pd.read_csv("CF-Insider-Trading-equities-28-04-2020to-28-07-2020.csv")
 
-print(type(dataset.head(0)))
+dataset = pd.read_csv("CF-Insider-Trading-equities-29-04-2020-to-29-07-2020.csv")
+
+for header in dataset.columns:
+    dataset = dataset.rename(columns={header: header.strip()})
+
+personGroup = ['Promoters', 'Promoter Group']
+dataset = dataset[dataset['CATEGORY OF PERSON'].isin(personGroup)]
+
+aquisitionGroup = ['Market Purchase']
+dataset = dataset[dataset['MODE OF ACQUISITION'].isin(aquisitionGroup)]
+
+filteredData = dataset
+
+headerList = []
+
+for header in filteredData.head(0):
+    headerList.append(header.strip())
+    
+headerList.remove("VALUE OF SECURITY (ACQUIRED/DISPLOSED)")
+headerList.remove("SYMBOL")
+
+for header in headerList:
+    filteredData = filteredData.drop(header, axis=1)
+
+consolidatedData = filteredData
+
+consolidatedData["VALUE OF SECURITY (ACQUIRED/DISPLOSED)"] = consolidatedData["VALUE OF SECURITY (ACQUIRED/DISPLOSED)"].astype(str).astype(float)
+consolidatedData = consolidatedData.groupby('SYMBOL',as_index=False)['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'].sum()
 
 
-new_list = []
-old_list = []
+consolidatedData.drop(consolidatedData[consolidatedData['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'] < 10000000].index, inplace = True)
 
-for i in dataset.head(0):
-    old_list.append(i)
-    new_list.append(i.strip())
-
-print(dataset.head(0))
-print(new_list)
-print(old_list)
-for a, b in zip(old_list, new_list):
-    print(a.strip(),b)
-    dataset = dataset.rename(columns={a: a.strip()})
-
-#dataset_new = dataset.rename(columns={'SYMBOL \r\n': 'SYMBOL'})
-old_list = []
-
-for i in dataset.head(0):
-    old_list.append(i)
-
-print(dataset.head(0))
-print(old_list)
-
-
-X = dataset.iloc[:, :].values
-
-#print(X)
-
-groups = ['Promoters', 'Promoter Group']
-dataset = dataset[dataset['category of person'].isin(groups)]
-
-#print(dataset['SYMBOL'])::
-dataset = dataset.groupby(['SYMBOL'])['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'].sum()
+consolidatedData.sort_values(by=['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'], inplace=True, ascending=False)

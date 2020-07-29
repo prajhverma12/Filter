@@ -4,31 +4,34 @@ import csv
 
 dataset = pd.read_csv("CF-Insider-Trading-equities-29-04-2020-to-29-07-2020.csv")
 
-for a in dataset.columns:
-    dataset = dataset.rename(columns={a: a.strip()})
+for header in dataset.columns:
+    dataset = dataset.rename(columns={header: header.strip()})
+
+personGroup = ['Promoters', 'Promoter Group']
+dataset = dataset[dataset['CATEGORY OF PERSON'].isin(personGroup)]
+
+aquisitionGroup = ['Market Purchase']
+dataset = dataset[dataset['MODE OF ACQUISITION'].isin(aquisitionGroup)]
+
+filteredData = dataset
+
+headerList = []
+
+for header in filteredData.head(0):
+    headerList.append(header.strip())
     
-X = dataset.iloc[:, :].values
+headerList.remove("VALUE OF SECURITY (ACQUIRED/DISPLOSED)")
+headerList.remove("SYMBOL")
 
-groups = ['Promoters', 'Promoter Group']
-dataset = dataset[dataset['CATEGORY OF PERSON'].isin(groups)]
+for header in headerList:
+    filteredData = filteredData.drop(header, axis=1)
 
-groups1 = ['Market Purchase']
-dataset = dataset[dataset['MODE OF ACQUISITION'].isin(groups1)]
+consolidatedData = filteredData
 
-data = dataset
+consolidatedData["VALUE OF SECURITY (ACQUIRED/DISPLOSED)"] = consolidatedData["VALUE OF SECURITY (ACQUIRED/DISPLOSED)"].astype(str).astype(float)
+consolidatedData = consolidatedData.groupby('SYMBOL',as_index=False)['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'].sum()
 
-old_list = []
 
-for i in data.head(0):
-    old_list.append(i.strip())
-    
-print(old_list)
+consolidatedData.drop(consolidatedData[consolidatedData['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'] < 10000000].index, inplace = True)
 
-old_list.remove("VALUE OF SECURITY (ACQUIRED/DISPLOSED)")
-old_list.remove("SYMBOL")
-
-print(old_list)
-
-for i in old_list:
-    data = data.drop(i, axis=1)
-    
+consolidatedData.sort_values(by=['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'], inplace=True, ascending=False)
