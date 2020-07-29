@@ -45,5 +45,4 @@ data_consolidate = data_consolidate.groupby('SYMBOL',as_index=False)['VALUE OF S
 
 data_consolidate.drop(data_consolidate[data_consolidate['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'] < 10000000].index, inplace = True)
 
-
-
+data_consolidate.sort_values(by=['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'], inplace=True, ascending=False)
