@@ -28,12 +28,11 @@ old_list = []
 for i in data.head(0):
     old_list.append(i.strip())
     
-print(old_list)
+
 
 old_list.remove("VALUE OF SECURITY (ACQUIRED/DISPLOSED)")
 old_list.remove("SYMBOL")
 
-print(old_list)
 
 for i in old_list:
     data = data.drop(i, axis=1)
@@ -41,9 +40,10 @@ for i in old_list:
 data_consolidate = data
 
 data_consolidate["VALUE OF SECURITY (ACQUIRED/DISPLOSED)"] = data_consolidate["VALUE OF SECURITY (ACQUIRED/DISPLOSED)"].astype(str).astype(float)
-data_consolidate = data_consolidate.groupby(['SYMBOL'])['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'].sum()
+data_consolidate = data_consolidate.groupby('SYMBOL',as_index=False)['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'].sum()
 
 
+data_consolidate.drop(data_consolidate[data_consolidate['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'] < 10000000].index, inplace = True)
 
-	
+
 
