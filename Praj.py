@@ -15,3 +15,20 @@ dataset = dataset[dataset['CATEGORY OF PERSON'].isin(groups)]
 groups1 = ['Market Purchase']
 dataset = dataset[dataset['MODE OF ACQUISITION'].isin(groups1)]
 
+data = dataset
+
+old_list = []
+
+for i in data.head(0):
+    old_list.append(i.strip())
+    
+print(old_list)
+
+old_list.remove("VALUE OF SECURITY (ACQUIRED/DISPLOSED)")
+old_list.remove("SYMBOL")
+
+print(old_list)
+
+for i in old_list:
+    data = data.drop(i, axis=1)
+    
