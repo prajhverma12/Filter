@@ -2,6 +2,9 @@ import csv_preprocessing as cp
 import subprocess
 import dateutility as date
 import time
+import stockprocessing as sp
+
+
 
 def download_csv():
     cmd = "start chrome \"https://www.nseindia.com/api/corporates-pit?index=equities&from_date="+ date.beforeDate() + "&to_date=" + date.dateToday() + "&csv=true\""
@@ -24,11 +27,11 @@ def getStockCSV():
 
     for stock in stockList:
         print(stock)
-        #download_stock_csv(stock)
-        
+        download_stock_csv(stock)
+    return stockList
 
 
-download_csv()
-#getStockCSV()
+#download_csv()
 
+    
 

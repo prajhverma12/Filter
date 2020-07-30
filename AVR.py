@@ -5,33 +5,17 @@ Created on Thu Jul 30 06:22:20 2020
 @author: Arnav Verma
 """
 
-import pandas as pd
-
-dataset = pd.read_csv("CF-Insider-Trading-equities-ALEMBICLTD-30-Jul-2020.csv")
-
-for header in dataset.columns:
-    dataset = dataset.rename(columns={header: header.strip()})
-
-personGroup = ['Promoters', 'Promoter Group']
-dataset = dataset[dataset['CATEGORY OF PERSON'].isin(personGroup)]
+def checkfile(filename):
+    import os
+    arr = os.listdir('.')
+    #print(arr)
+    if filename in arr:
+        return True
+    else:
+        return False
     
-aquisitionGroup = ['Market Purchase']
-dataset = dataset[dataset['MODE OF ACQUISITION'].isin(aquisitionGroup)]
+if checkfile("CF-Insider-Trading-equities-30-04-2020-to-30-07-2020.csv"):
+    print("true")
 
-filteredData = dataset
-
-headerlist = list(filteredData.columns)
-headerlist.remove("VALUE OF SECURITY (ACQUIRED/DISPLOSED)")
-headerlist.remove("SYMBOL")
-headerlist.remove("NO. OF SECURITIES (ACQUIRED/DISPLOSED)")
-
-filteredData = filteredData.drop(headerlist, axis=1)
-ValueOfSecurity = filteredData.iloc[:,-1].values.tolist()
-NoOfSecurity = filteredData.iloc[:,-2].values.tolist()
-if len(ValueOfSecurity) == 0:
-    buyprice = 0
-else:    
-    Valuesum = sum(ValueOfSecurity)
-    Nosum = sum(NoOfSecurity)
-
-    buyprice = Valuesum/Nosum
+else:
+    print("false")    

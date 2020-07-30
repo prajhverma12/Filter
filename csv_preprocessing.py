@@ -1,9 +1,16 @@
-import numpy as np
 import pandas as pd
-import csv
 import dateutility as date
 import time
 import subprocess
+
+def checkfile(filename):
+    import os
+    arr = os.listdir('.')
+    #print(arr)
+    if filename in arr:
+        return True
+    else:
+        return False
 
 def download_csv():
     cmd = "start chrome \"https://www.nseindia.com/api/corporates-pit?index=equities&from_date="+ date.beforeDate() + "&to_date=" + date.dateToday() + "&csv=true\""
@@ -17,7 +24,12 @@ def filterStocks(filename):
         dataset = pd.read_csv(filename)
     except:
         download_csv()
-        print("File not found, Please try again...")
+        if checkfile(filename):
+            consolidatedData = filterStocks(filename)
+            return consolidatedData
+        else:
+            print("File not downloaded, Please check net connection and try again...")
+        
         #consolidatedData = filterStocks(filename)
         
     
@@ -52,6 +64,6 @@ def filterStocks(filename):
     
         consolidatedData.to_csv("Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
             
-    return consolidatedData
+        return consolidatedData
 
-#x = filterStocks("CF-Insider-Trading-equities-30-04-2020-to-30-07-2020.csv")
+x = filterStocks("CF-Insider-Trading-equities-30-04-2020-to-30-07-2020.csv")
