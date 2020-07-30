@@ -2,9 +2,9 @@ import pandas as pd
 import dateutility as date
 import time
 import subprocess
+import os
 
 def checkfile(filename):
-    import os
     arr = os.listdir('.')
     #print(arr)
     if filename in arr:
