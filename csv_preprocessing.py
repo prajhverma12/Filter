@@ -42,4 +42,4 @@ def filterStocks(filename):
         
     return consolidatedData
 
-x = filterStocks("CF-Insider-Trading-equities-29-04-2020-to-29-07-2020.csv")
+#x = filterStocks("CF-Insider-Trading-equities-29-04-2020-to-29-07-2020.csv")
