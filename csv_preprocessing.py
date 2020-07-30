@@ -17,16 +17,12 @@ def filterStocks(filename):
     
     filteredData = dataset
     
-    headerList = []
-    
-    for header in filteredData.head(0):
-        headerList.append(header.strip())
+    headerList = list(filteredData.columns)
         
     headerList.remove("VALUE OF SECURITY (ACQUIRED/DISPLOSED)")
     headerList.remove("SYMBOL")
     
-    for header in headerList:
-        filteredData = filteredData.drop(header, axis=1)
+    filteredData = filteredData.drop(headerList, axis=1)
     
     consolidatedData = filteredData
     
