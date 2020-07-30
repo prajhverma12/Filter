@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import csv
+import dateutility as date
 
 def filterStocks(filename):
     dataset = pd.read_csv(filename)
@@ -37,7 +38,7 @@ def filterStocks(filename):
     
     consolidatedData.sort_values(by=['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'], inplace=True, ascending=False)
 
-    #consolidatedData.to_csv("sample.csv", header=True, index=False, sep=',')
+    consolidatedData.to_csv("Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
         
     return consolidatedData
 
