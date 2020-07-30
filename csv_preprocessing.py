@@ -16,9 +16,9 @@ def filterStocks(filename):
     try:
         dataset = pd.read_csv(filename)
     except:
-        print("file not found")
         download_csv()
-        consolidatedData = filterStocks(filename)
+        print("File not found, Please try again...")
+        #consolidatedData = filterStocks(filename)
         
     
     else:
@@ -54,4 +54,4 @@ def filterStocks(filename):
             
     return consolidatedData
 
-x = filterStocks("CF-Insider-Trading-equities-30-04-2020-to-30-07-2020.csv")
+#x = filterStocks("CF-Insider-Trading-equities-30-04-2020-to-30-07-2020.csv")

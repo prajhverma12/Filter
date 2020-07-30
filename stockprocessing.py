@@ -25,7 +25,7 @@ def getBuyPrice(filename):
     ValueOfSecurity = filteredData.iloc[:,-1].values.tolist()
     NoOfSecurity = filteredData.iloc[:,-2].values.tolist()
     
-    if len(ValueOfSecurity) == 0:
+    if len(NoOfSecurity) == 0:
         buyprice = 0
     else:    
         Valuesum = sum(ValueOfSecurity)

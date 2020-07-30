@@ -28,7 +28,7 @@ def getStockCSV():
         
 
 
-#download_csv()
-getStockCSV()
+download_csv()
+#getStockCSV()
 
 
