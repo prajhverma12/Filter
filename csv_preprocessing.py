@@ -16,7 +16,7 @@ def download_csv():
     cmd = "start chrome \"https://www.nseindia.com/api/corporates-pit?index=equities&from_date="+ date.beforeDate() + "&to_date=" + date.dateToday() + "&csv=true\""
     returned_value = subprocess.call(cmd, shell=True)
     print("Return value for Main Sheet : {}".format(returned_value))
-    time.sleep(5)
+    time.sleep(10)
       
 def filterStocks(filename):
     try:
@@ -62,4 +62,3 @@ def filterStocks(filename):
             
         return consolidatedData
 
-#x = filterStocks("CF-Insider-Trading-equities-30-04-2020-to-30-07-2020.csv")

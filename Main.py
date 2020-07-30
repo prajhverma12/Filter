@@ -3,7 +3,6 @@ import subprocess
 import dateutility as date
 import time
 import stockprocessing as sp
-import os
 import pandas as pd
     
 def ConvertToCsv(dictionary):
@@ -16,9 +15,7 @@ def download_stock_csv(stock):
     print("Returned value for {} : {}".format(stock, returned_value))
     time.sleep(2)
     
-def getBuyPriceForStock(stock):
-    filename = "CF-Insider-Trading-equities-"+ stock + "-" + date.dateFormatforStock() + ".csv"
-    
+def getBuyPriceForStock(stock, filename):
     if cp.checkfile(filename):
         buyprice = sp.getBuyPrice(filename)
     
@@ -26,7 +23,7 @@ def getBuyPriceForStock(stock):
         print("File not found for {}: {}".format(stock, filename))
         download_stock_csv(stock)
         time.sleep(10)
-        getBuyPriceForStock(stock)
+        buyprice = getBuyPriceForStock(stock)
     
     return buyprice
 
@@ -40,15 +37,15 @@ def getStockCSV():
 
     for stock in stockList:
         print(stock)
-        download_stock_csv(stock)
-        buyprice = getBuyPriceForStock(stock)
+        filename = "CF-Insider-Trading-equities-"+ stock + "-" + date.dateFormatforStock() + ".csv"
+        if not cp.checkfile(filename):
+            download_stock_csv(stock)
+        buyprice = getBuyPriceForStock(stock, filename)
         buyprices[stock] = buyprice
         
     return buyprices
 
-
-cp.download_csv()
-buyprices = getStockCSV()
-
-df = ConvertToCsv(buyprices)
-df.to_csv('AllStocksBuyPrices.csv')
+if __name__ == "__main__":
+    buyprices = getStockCSV()
+    df = ConvertToCsv(buyprices)
+    df.to_csv('AllStocksBuyPrices.csv', index=False, sep=",")
