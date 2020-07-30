@@ -16,9 +16,8 @@ def download_csv():
     cmd = "start chrome \"https://www.nseindia.com/api/corporates-pit?index=equities&from_date="+ date.beforeDate() + "&to_date=" + date.dateToday() + "&csv=true\""
     returned_value = subprocess.call(cmd, shell=True)
     print("Return value for Main Sheet : {}".format(returned_value))
-    time.sleep(10)
-    
-    
+    time.sleep(5)
+      
 def filterStocks(filename):
     try:
         dataset = pd.read_csv(filename)
@@ -28,10 +27,7 @@ def filterStocks(filename):
             consolidatedData = filterStocks(filename)
             return consolidatedData
         else:
-            print("File not downloaded, Please check net connection and try again...")
-        
-        #consolidatedData = filterStocks(filename)
-        
+            print("File not downloaded, Please check net connection and try again...")        
     
     else:
         for header in dataset.columns:
@@ -66,4 +62,4 @@ def filterStocks(filename):
             
         return consolidatedData
 
-x = filterStocks("CF-Insider-Trading-equities-30-04-2020-to-30-07-2020.csv")
+#x = filterStocks("CF-Insider-Trading-equities-30-04-2020-to-30-07-2020.csv")

@@ -8,7 +8,7 @@ Created on Thu Jul 30 06:22:20 2020
 def checkfile(filename):
     import os
     arr = os.listdir('.')
-    #print(arr)
+    print(arr)
     if filename in arr:
         return True
     else:

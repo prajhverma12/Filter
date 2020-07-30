@@ -12,4 +12,9 @@ def beforeDate():
     date = date + relativedelta(months=-3)
     formattedDate = date.strftime("%d-%m-%Y")
     return formattedDate
- 
+
+def dateFormatforStock():
+    date = datetime.now()
+    formattedDate = date.strftime("%d-%b-%Y")
+    return formattedDate
+

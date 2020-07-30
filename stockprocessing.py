@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def getBuyPrice(filename):
     dataset = pd.read_csv(filename)
     
