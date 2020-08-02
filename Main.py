@@ -25,7 +25,7 @@ def getBuyPriceForStock(stock, filename):
         logging.info("File not found for {}: {}".format(stock, filename))
         download_stock_csv(stock)
         time.sleep(10)
-        buyprice = getBuyPriceForStock(stock)
+        buyprice = getBuyPriceForStock(stock, filename)
     
     return buyprice
 
