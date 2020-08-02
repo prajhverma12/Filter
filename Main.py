@@ -18,7 +18,7 @@ def download_stock_csv(stock):
     time.sleep(2)
     
 def getBuyPriceForStock(stock, filename):
-    if cp.checkfile(filename):
+    if file.checkfile(filename):
         buyprice = sp.getBuyPrice(filename)
     
     else:
@@ -40,7 +40,7 @@ def getStockCSV():
     for stock in stockList:
         logging.info(stock)
         filename = "CF-Insider-Trading-equities-"+ stock + "-" + date.dateFormatforStock() + ".csv"
-        if not cp.checkfile(filename):
+        if not file.checkfile(filename):
             download_stock_csv(stock)
         buyprice = getBuyPriceForStock(stock, filename)
         buyprices[stock] = buyprice

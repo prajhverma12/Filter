@@ -16,7 +16,7 @@ def filterStocks(filename):
     try:
         dataset = pd.read_csv(filename)
     except:
-        logging.csv("File not present {}, Downloading...".format(filename))
+        logging.info("File not present {}, Downloading...".format(filename))
         download_csv()
         if file.checkfile(filename):
             consolidatedData = filterStocks(filename)
