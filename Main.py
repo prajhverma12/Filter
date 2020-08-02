@@ -14,7 +14,7 @@ def ConvertToCsv(dictionary):
 def download_stock_csv(stock):
     cmd = "start chrome \"https://www.nseindia.com/api/corporates-pit?index=equities&symbol=" + stock + "&csv=true\""
     returned_value = subprocess.call(cmd, shell=True)
-    print("Returned value for {} : {}".format(stock, returned_value))
+    logging.info("Returned value for {} : {}".format(stock, returned_value))
     time.sleep(2)
     
 def getBuyPriceForStock(stock, filename):
@@ -22,7 +22,7 @@ def getBuyPriceForStock(stock, filename):
         buyprice = sp.getBuyPrice(filename)
     
     else:
-        print("File not found for {}: {}".format(stock, filename))
+        logging.info("File not found for {}: {}".format(stock, filename))
         download_stock_csv(stock)
         time.sleep(10)
         buyprice = getBuyPriceForStock(stock)
@@ -32,24 +32,26 @@ def getBuyPriceForStock(stock, filename):
 def getStockCSV():
     buyprices = {}
     fileName = "CF-Insider-Trading-equities-" + date.beforeDate() + "-to-" + date.dateToday() + ".csv"
-    print(fileName)
+    logging.info(fileName)
     stocks = cp.filterStocks(fileName)
     stockList = stocks.iloc[:, 0].values.tolist()
     #print(stockList)
 
     for stock in stockList:
-        print(stock)
+        logging.info(stock)
         filename = "CF-Insider-Trading-equities-"+ stock + "-" + date.dateFormatforStock() + ".csv"
         if not cp.checkfile(filename):
             download_stock_csv(stock)
         buyprice = getBuyPriceForStock(stock, filename)
         buyprices[stock] = buyprice
-        
+
+    deleteStockCSV(stockList)        
     return buyprices
 
 def deleteStockCSV(stocklist):
     for stock in stocklist:
         filename = "CF-Insider-Trading-equities-"+ stock + "-" + date.dateFormatforStock() + ".csv"
+        logging.info("Deleting the Stock csv file {}".format(filename))
         file.deletefile(filename)
     
 
@@ -61,3 +63,4 @@ if __name__ == "__main__":
     else:
         file.deletefile("Stocks-" + date.dateToday() + ".csv")
         df.to_csv("AllStocksBuyPrices-" + date.dateToday() + ".csv", index=False, sep=",")
+        
