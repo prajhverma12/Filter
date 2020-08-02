@@ -3,14 +3,8 @@ import dateutility as date
 import time
 import subprocess
 import os
-
-def checkfile(filename):
-    arr = os.listdir('.')
-    #print(arr)
-    if filename in arr:
-        return True
-    else:
-        return False
+import fileutility as file
+import logging
 
 def download_csv():
     cmd = "start chrome \"https://www.nseindia.com/api/corporates-pit?index=equities&from_date="+ date.beforeDate() + "&to_date=" + date.dateToday() + "&csv=true\""
@@ -23,11 +17,11 @@ def filterStocks(filename):
         dataset = pd.read_csv(filename)
     except:
         download_csv()
-        if checkfile(filename):
+        if file.checkfile(filename):
             consolidatedData = filterStocks(filename)
             return consolidatedData
         else:
-            print("File not downloaded, Please check net connection and try again...")        
+            print("File {} not downloaded, Please check net connection and try again...".format(filename))        
     
     else:
         for header in dataset.columns:
@@ -58,7 +52,11 @@ def filterStocks(filename):
         
         consolidatedData.sort_values(by=['VALUE OF SECURITY (ACQUIRED/DISPLOSED)'], inplace=True, ascending=False)
     
-        consolidatedData.to_csv("Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
+        if not file.checkfile("Stocks-" + date.dateToday() + ".csv"):
+            consolidatedData.to_csv("Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
+        else:
+            file.deletefile("Stocks-" + date.dateToday() + ".csv")
+            consolidatedData.to_csv("Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
             
         return consolidatedData
 

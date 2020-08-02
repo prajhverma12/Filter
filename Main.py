@@ -4,6 +4,8 @@ import dateutility as date
 import time
 import stockprocessing as sp
 import pandas as pd
+import fileutility as file
+import logging
     
 def ConvertToCsv(dictionary):
     df = pd.DataFrame(list(dictionary.items()))
@@ -45,7 +47,17 @@ def getStockCSV():
         
     return buyprices
 
+def deleteStockCSV(stocklist):
+    for stock in stocklist:
+        filename = "CF-Insider-Trading-equities-"+ stock + "-" + date.dateFormatforStock() + ".csv"
+        file.deletefile(filename)
+    
+
 if __name__ == "__main__":
     buyprices = getStockCSV()
     df = ConvertToCsv(buyprices)
-    df.to_csv('AllStocksBuyPrices.csv', index=False, sep=",")
+    if not file.checkfile("AllStocksBuyPrices-" + date.dateToday() + ".csv"):
+        df.to_csv("AllStocksBuyPrices-" + date.dateToday() + ".csv", index=False, sep=",")
+    else:
+        file.deletefile("Stocks-" + date.dateToday() + ".csv")
+        df.to_csv("AllStocksBuyPrices-" + date.dateToday() + ".csv", index=False, sep=",")
