@@ -14,7 +14,7 @@ def download_stock_csv(stock):
     cmd = "start chrome \"https://www.nseindia.com/api/corporates-pit?index=equities&symbol=" + stock + "&csv=true\""
     returned_value = subprocess.call(cmd, shell=True)
     print("Returned value for {} : {}".format(stock, returned_value))
-    time.sleep(2)
+    time.sleep(5)
     
 def getBuyPriceForStock(stock, filename):
     if file.checkfile(filename):

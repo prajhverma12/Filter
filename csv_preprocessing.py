@@ -21,7 +21,7 @@ def filterStocks(filename):
             consolidatedData = filterStocks(filename)
             return consolidatedData
         else:
-            logging.error("File {} not downloaded, Please check net connection and try again...".format(filename))        
+            print("File {} not downloaded, Please check net connection and try again...".format(filename))        
     
     else:
         for header in dataset.columns:
