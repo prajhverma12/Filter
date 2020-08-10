@@ -12,8 +12,9 @@ def download_csv():
     time.sleep(10)
       
 def filterStocks(filename):
+    qualified_filename = "Downloads/" + filename
     try:
-        dataset = pd.read_csv(filename)
+        dataset = pd.read_csv(qualified_filename)
     except:
         print("File not present {}, Downloading...".format(filename))
         download_csv()
@@ -66,12 +67,12 @@ def filterStocks(filename):
         print("Sorted the remaining Data in descending format")
         
         if not file.checkfile("Stocks-" + date.dateToday() + ".csv"):
-            consolidatedData.to_csv("Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
-            print("File not present {}, Converting Dataset into csv".format("Stocks-" + date.dateToday() + ".csv"))
+            consolidatedData.to_csv("Downloads/Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
+            print("File not present {}, Converting Dataset into csv".format("Downloads/Stocks-" + date.dateToday() + ".csv"))
         else:
-            print("File already present {}, Deleting the file".format("Stocks-" + date.dateToday() + ".csv"))
+            print("File already present {}, Deleting the file".format("Downloads/Stocks-" + date.dateToday() + ".csv"))
             file.deletefile("Stocks-" + date.dateToday() + ".csv")
-            consolidatedData.to_csv("Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
+            consolidatedData.to_csv("Downloads/Stocks-"+ date.dateToday() +".csv", header=True, index=False, sep=',')
             
         return consolidatedData
 

@@ -1,7 +1,7 @@
 import pandas as pd
 
 def getBuyPrice(filename):
-    dataset = pd.read_csv(filename)
+    dataset = pd.read_csv("Downloads/" + filename)
     
     for header in dataset.columns:
         dataset = dataset.rename(columns={header: header.strip()})

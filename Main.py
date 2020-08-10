@@ -58,8 +58,8 @@ if __name__ == "__main__":
     buyprices = getStockCSV()
     df = ConvertToCsv(buyprices)
     if not file.checkfile("AllStocksBuyPrices-" + date.dateToday() + ".csv"):
-        df.to_csv("AllStocksBuyPrices-" + date.dateToday() + ".csv", index=False, sep=",")
+        df.to_csv("Downloads/AllStocksBuyPrices-" + date.dateToday() + ".csv", index=False, sep=",")
     else:
-        file.deletefile("Stocks-" + date.dateToday() + ".csv")
-        df.to_csv("AllStocksBuyPrices-" + date.dateToday() + ".csv", index=False, sep=",")
+        file.deletefile("Downloads/AllStocksBuyPrices-" + date.dateToday() + ".csv")
+        df.to_csv("Downloads/AllStocksBuyPrices-" + date.dateToday() + ".csv", index=False, sep=",")
         
